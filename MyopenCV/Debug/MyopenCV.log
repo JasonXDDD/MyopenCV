@@ -1,0 +1,2 @@
+﻿  MyForm.cpp
+f:\work\opencv\opencvtest\myopencv\myopencv\MyForm.h(3): fatal error C1083: 無法開啟包含檔案: 'opencv2/core/core_c.h': No such file or directory

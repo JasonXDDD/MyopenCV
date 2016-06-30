@@ -11,10 +11,9 @@
 #include <math.h>
 
 using namespace cv;
-
+using namespace System::Runtime::InteropServices;
 Mat img;
 int img_height, img_width;
-
 
 namespace MyopenCV {
 
@@ -80,13 +79,19 @@ namespace MyopenCV {
 	private: System::Windows::Forms::Button^  Hog;
 	private: System::Windows::Forms::Button^  HistogramEqualization;
 	private: System::Windows::Forms::Button^  ContrastStretch;
-	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::Button^  EuclideanDistance;
+
 	private: System::Windows::Forms::DataVisualization::Charting::Chart^  chart2;
 	private: System::Windows::Forms::RichTextBox^  richTextBox1;
 	private: System::Windows::Forms::Button^  Erosion;
 	private: System::Windows::Forms::Button^  Dilation;
 	private: System::Windows::Forms::Button^  TwoPass;
 	private: System::Windows::Forms::Button^  CV_Function;
+	private: System::Windows::Forms::Button^  MatRotate;
+	private: System::Windows::Forms::Button^  MatROI;
+	private: System::Windows::Forms::Button^  MouseEvent;
+
+
 
 
 
@@ -129,13 +134,16 @@ namespace MyopenCV {
 			this->Hog = (gcnew System::Windows::Forms::Button());
 			this->HistogramEqualization = (gcnew System::Windows::Forms::Button());
 			this->ContrastStretch = (gcnew System::Windows::Forms::Button());
-			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->EuclideanDistance = (gcnew System::Windows::Forms::Button());
 			this->chart2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
 			this->Erosion = (gcnew System::Windows::Forms::Button());
 			this->Dilation = (gcnew System::Windows::Forms::Button());
 			this->TwoPass = (gcnew System::Windows::Forms::Button());
 			this->CV_Function = (gcnew System::Windows::Forms::Button());
+			this->MatRotate = (gcnew System::Windows::Forms::Button());
+			this->MatROI = (gcnew System::Windows::Forms::Button());
+			this->MouseEvent = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chart1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chart2))->BeginInit();
@@ -240,7 +248,7 @@ namespace MyopenCV {
 			series2->Name = L"Series2";
 			this->chart1->Series->Add(series1);
 			this->chart1->Series->Add(series2);
-			this->chart1->Size = System::Drawing::Size(558, 322);
+			this->chart1->Size = System::Drawing::Size(635, 322);
 			this->chart1->TabIndex = 8;
 			this->chart1->Text = L"chart1";
 			// 
@@ -324,14 +332,15 @@ namespace MyopenCV {
 			this->ContrastStretch->UseVisualStyleBackColor = true;
 			this->ContrastStretch->Click += gcnew System::EventHandler(this, &MyForm::ContrastStretch_Click);
 			// 
-			// button1
+			// EuclideanDistance
 			// 
-			this->button1->Location = System::Drawing::Point(534, 362);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(217, 33);
-			this->button1->TabIndex = 17;
-			this->button1->Text = L"xDay5:";
-			this->button1->UseVisualStyleBackColor = true;
+			this->EuclideanDistance->Location = System::Drawing::Point(534, 362);
+			this->EuclideanDistance->Name = L"EuclideanDistance";
+			this->EuclideanDistance->Size = System::Drawing::Size(217, 33);
+			this->EuclideanDistance->TabIndex = 17;
+			this->EuclideanDistance->Text = L"Day5: Euclidean Distance";
+			this->EuclideanDistance->UseVisualStyleBackColor = true;
+			this->EuclideanDistance->Click += gcnew System::EventHandler(this, &MyForm::EuclideanDistance_Click);
 			// 
 			// chart2
 			// 
@@ -347,7 +356,7 @@ namespace MyopenCV {
 			series3->Legend = L"Legend1";
 			series3->Name = L"Series1";
 			this->chart2->Series->Add(series3);
-			this->chart2->Size = System::Drawing::Size(1145, 241);
+			this->chart2->Size = System::Drawing::Size(1222, 241);
 			this->chart2->TabIndex = 18;
 			this->chart2->Text = L"chart2";
 			// 
@@ -355,7 +364,7 @@ namespace MyopenCV {
 			// 
 			this->richTextBox1->Font = (gcnew System::Drawing::Font(L"Consolas", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->richTextBox1->Location = System::Drawing::Point(1202, 24);
+			this->richTextBox1->Location = System::Drawing::Point(1278, 24);
 			this->richTextBox1->Name = L"richTextBox1";
 			this->richTextBox1->Size = System::Drawing::Size(343, 732);
 			this->richTextBox1->TabIndex = 20;
@@ -401,18 +410,50 @@ namespace MyopenCV {
 			this->CV_Function->UseVisualStyleBackColor = true;
 			this->CV_Function->Click += gcnew System::EventHandler(this, &MyForm::CV_Function_Click);
 			// 
+			// MatRotate
+			// 
+			this->MatRotate->Location = System::Drawing::Point(785, 458);
+			this->MatRotate->Name = L"MatRotate";
+			this->MatRotate->Size = System::Drawing::Size(217, 33);
+			this->MatRotate->TabIndex = 25;
+			this->MatRotate->Text = L"Day8: Mat Rotate";
+			this->MatRotate->UseVisualStyleBackColor = true;
+			this->MatRotate->Click += gcnew System::EventHandler(this, &MyForm::MatRotate_Click);
+			// 
+			// MatROI
+			// 
+			this->MatROI->Location = System::Drawing::Point(1033, 362);
+			this->MatROI->Name = L"MatROI";
+			this->MatROI->Size = System::Drawing::Size(217, 33);
+			this->MatROI->TabIndex = 26;
+			this->MatROI->Text = L"Day8: Mat ROI";
+			this->MatROI->UseVisualStyleBackColor = true;
+			this->MatROI->Click += gcnew System::EventHandler(this, &MyForm::MatROI_Click);
+			// 
+			// MouseEvent
+			// 
+			this->MouseEvent->Location = System::Drawing::Point(1033, 410);
+			this->MouseEvent->Name = L"MouseEvent";
+			this->MouseEvent->Size = System::Drawing::Size(217, 33);
+			this->MouseEvent->TabIndex = 27;
+			this->MouseEvent->Text = L"Day8: Mouse Event";
+			this->MouseEvent->UseVisualStyleBackColor = true;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1572, 772);
+			this->ClientSize = System::Drawing::Size(1640, 772);
+			this->Controls->Add(this->MouseEvent);
+			this->Controls->Add(this->MatROI);
+			this->Controls->Add(this->MatRotate);
 			this->Controls->Add(this->CV_Function);
 			this->Controls->Add(this->TwoPass);
 			this->Controls->Add(this->Erosion);
 			this->Controls->Add(this->Dilation);
 			this->Controls->Add(this->richTextBox1);
 			this->Controls->Add(this->chart2);
-			this->Controls->Add(this->button1);
+			this->Controls->Add(this->EuclideanDistance);
 			this->Controls->Add(this->Hog);
 			this->Controls->Add(this->HistogramEqualization);
 			this->Controls->Add(this->ContrastStretch);
@@ -468,6 +509,27 @@ namespace MyopenCV {
 			return;
 		}
 
+
+		//enable button
+		Inverse->Enabled = true;
+		RGBtoGray->Enabled = false;
+		RGB->Enabled = false;
+		BinarizeByValue->Enabled = true;
+		LowPassFilter->Enabled = true;
+		MedianFilter->Enabled = true;
+		Sobel->Enabled = true;
+		Laplacian->Enabled = true;
+		ContrastStretch->Enabled = true;
+		HistogramEqualization->Enabled = true;
+		Hog->Enabled = true;
+		EuclideanDistance->Enabled = true;
+		Dilation->Enabled = true;
+		Erosion->Enabled = true;
+		TwoPass->Enabled = true;
+		CV_Function->Enabled = true;
+		MatRotate->Enabled = true;
+		MatROI->Enabled = true;
+		MouseEvent->Enabled = false;
 	}
 
 
@@ -485,6 +547,27 @@ namespace MyopenCV {
 		else {
 			return;
 		}
+
+		//enable button
+		Inverse->Enabled = false;
+		RGBtoGray->Enabled = true;
+		RGB->Enabled = true;
+		BinarizeByValue->Enabled = false;
+		LowPassFilter->Enabled = false;
+		MedianFilter->Enabled = false;
+		Sobel->Enabled = false;
+		Laplacian->Enabled = false;
+		ContrastStretch->Enabled = false;
+		HistogramEqualization->Enabled = false;
+		Hog->Enabled = false;
+		EuclideanDistance->Enabled = false;
+		Dilation->Enabled = false;
+		Erosion->Enabled = false;
+		TwoPass->Enabled = false;
+		CV_Function->Enabled = true;
+		MatRotate->Enabled = false;
+		MatROI->Enabled = false;
+		MouseEvent->Enabled = false;
 	}
 
 
@@ -585,6 +668,73 @@ namespace MyopenCV {
 		imshow("Histogram Equalization", output_img);
 		showChart(input_gray, output_gray);
 	}
+
+	private: System::Void EuclideanDistance_Click(System::Object^  sender, System::EventArgs^  e) {
+		//load training image
+		Mat training[20 * 21];
+		richTextBox1->Text = "";
+
+
+		for (int i = 1; i <= 20; i++) {
+			for (int j = 0; j <= 20; j++) {
+				System::String^ myString = System::String::Format("../Docs/hw5_dataset/hw5_dataset/j_training/obj{0}__{1}.bmp", i, j);
+				richTextBox1->Text += myString + "\n";
+
+				char* str = (char*)(void*)Marshal::StringToHGlobalAnsi(myString);
+				training[(i - 1) * 21 + j] = imread(str, CV_LOAD_IMAGE_GRAYSCALE);
+			}
+		}
+
+		
+		//do hogs
+		float *img_hist = HogByCell(img);
+		float **training_hist = new float*[20 * 21];
+
+		for (int num = 0; num < 20 * 21; num++) {
+			training_hist[num] = HogByCell(training[num]);
+		}
+		//training_hist[num][bin]
+
+
+		//do euclidean distance
+		richTextBox1->Text = "";
+
+		float argmin[20 * 21];
+		for(int num = 0; num < 20*21; num++){
+			argmin[num] = doArgmin(img_hist, training_hist[num]);
+			
+			//show log
+			System::String^ myString = System::String::Format( "i: {0, 3},  argmin: {1:F3}\n", num, argmin[num]);
+			richTextBox1->Text += myString;
+		}
+
+		//find min argmin
+		float cmin = 99.0;
+		int index = 0;
+		for (int i = 0; i < 20 * 21; i++) {
+			if (cmin > argmin[i]) {
+				cmin = argmin[i];
+				index = i;
+			}
+		}
+		System::String^ myString = System::String::Format("\n\nmin  i: {0, 3},  argmin: {1:F3}\n", index, cmin);
+		richTextBox1->Text += myString;
+
+		imshow("min", training[index]);
+	}
+
+
+	float doArgmin(float *testing, float *training) {
+		float sum = 0;
+
+		for (int i = 0; i < 9; i++) {
+			sum += pow((testing[i] - training[i]), 2);
+		}
+
+		return sqrt(sum);
+	}
+
+
 	private: System::Void Hog_Click(System::Object^  sender, System::EventArgs^  e) {
 
 		//segment 8x8 cells
@@ -623,6 +773,8 @@ namespace MyopenCV {
 				chart2->Series["Series1"]->Points->AddXY(cell*9 + i + 1, hist[cell][i]);
 			}
 		}
+
+
 	}
 
 	float* HogByCell(Mat cell) {
@@ -676,10 +828,11 @@ namespace MyopenCV {
 			}
 		}
 		//show log
+		
 		System::String^ myString = System::String::Format("grad_x:{0,-4},  grad_y:{1,-4},  Gx:{2,-4},  Th:{3,-4}\n"
 			, grad_x[15][5], grad_y[15][5], Gx[15][5], Th[15][5]);
 		richTextBox1->Text += myString;
-
+		
 		//do statistic all degree
 		float *hist = new float[9];
 		for (int i = 0; i < 9; i++) {
@@ -1396,5 +1549,65 @@ namespace MyopenCV {
 	int find_V(int R, int G, int B) {
 		return max(max(R, G), B);
 	}
+
+
+	private: System::Void MatRotate_Click(System::Object^  sender, System::EventArgs^  e) {
+
+		Mat output_img(img_height, img_width, CV_8UC3, Scalar(0));
+
+		//transpose
+		output_img = img.t();
+		imshow("transpose", output_img);
+
+		//and
+		output_img = output_img & img;
+		imshow("and", output_img);
+
+		line(output_img, cv::Point(412,  73), cv::Point( 73, 412), cv::Scalar(0,0,255), 5);
+		line(output_img, cv::Point(332, 253), cv::Point(253, 332), cv::Scalar(0, 0, 255), 5);
+		line(output_img, cv::Point(494, 253), cv::Point(253, 494), cv::Scalar(0, 0, 255), 5);
+		imshow("line", output_img);
+	}
+
+
+	private: System::Void MatROI_Click(System::Object^  sender, System::EventArgs^  e) {
+		Mat output_img(img_height, img_width, CV_8UC3, Scalar(0));
+
+		//transpose
+		output_img = img.t();
+		imshow("transpose", output_img);
+
+		//and
+		output_img = output_img & img;
+		imshow("and", output_img);
+
+		//ROI
+		int height = 253 - 73;
+
+		Mat roi_1 = output_img(Rect(332, 73, height, height)).clone();
+		imshow("ROI", roi_1);
+		Mat roi_2 = output_img(Rect(73, 332, height, height)).clone();
+		imshow("ROI_1", roi_2);
+
+		Mat finish(height, height * 2, CV_8UC3, Scalar(0));
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < height * 2; j++) {
+				if (j < height && j >= 0) {
+					finish.at<Vec3b>(i, j)[0] = roi_1.at<Vec3b>(i, j)[0];
+					finish.at<Vec3b>(i, j)[1] = roi_1.at<Vec3b>(i, j)[1];
+					finish.at<Vec3b>(i, j)[2] = roi_1.at<Vec3b>(i, j)[2];
+				}
+				else {
+					finish.at<Vec3b>(i, j)[0] = roi_2.at<Vec3b>(i, j - height)[0];
+					finish.at<Vec3b>(i, j)[1] = roi_2.at<Vec3b>(i, j - height)[1];
+					finish.at<Vec3b>(i, j)[2] = roi_2.at<Vec3b>(i, j - height)[2];
+				}
+			}
+		}
+		imshow("ROI_finish", finish);
+	}
+
+	
+	
 };
 }
